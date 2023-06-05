@@ -2,16 +2,16 @@
 sort: 1
 ---
 
-# Installing solids4foam from Source
+# Installing openFelCell from Source
 
 ---
 
 ## Quickstart
 
-Source a [supported version of OpenFOAM](#supported-versions-of-openfoam), then download, build and test solids4foam-v2.0:
+Source a [supported version of OpenFOAM](#supported-versions-of-openfoam), then download, build and test openFuelCell:
 ```bash
-> git clone --branch v2.0 git@github.com:solids4foam/solids4foam.git
-> cd solids4foam && ./Allwmake && ./Alltest
+> git clone --branch v2.0 git@github.com:openFelCell/openFelCell.git
+> cd openFelCell && ./Allwmake && ./Alltest
 ```
 
 For a detailed installation guide, see below.
@@ -25,28 +25,28 @@ For a detailed installation guide, see below.
 
 ### Supported Versions of OpenFOAM/foam
 
-solids4foam requires a working version of OpenFOAM or foam-extend. Currently, the following OpenFOAM versions are supported:
+openFelCell requires a working version of OpenFOAM or foam-extend. Currently, the following OpenFOAM versions are supported:
 
-| solids4foam version | OpenFOAM/foam version |
+| openFelCell version | OpenFOAM/foam version |
 | ------- | -------- |
-| solids4foam-v1.* | foam-extend-4.0 |
+| openFelCell-v1.* | foam-extend-4.0 |
 |  | foam-extend-4.1 |
 |  | OpenFOAM-v1812 |
 |  | OpenFOAM-v1912 |
 |  | OpenFOAM-7 |
 | ------- | -------- |
-| solids4foam-v2.* | foam-extend-4.1 |
+| openFelCell-v2.* | foam-extend-4.1 |
 |  | OpenFOAM-v2012 |
 |  | OpenFOAM-9 |
 
 #### Note on using foam-extend-4.1
-If you are using foam-extend-4.1, the solids4foam `Allwmake` script will ask you to fix two files in the foam-extend-4.1 installation:
-  * `meshObjectBase.H`: without this fix, all runs will end in a segmentation. The solids4foam solver will work correctly; however, you may like to fix this if you plan to catch the return valve from the solver.
+If you are using foam-extend-4.1, the openFelCell `Allwmake` script will ask you to fix two files in the foam-extend-4.1 installation:
+  * `meshObjectBase.H`: without this fix, all runs will end in a segmentation. The openFelCell solver will work correctly; however, you may like to fix this if you plan to catch the return valve from the solver.
   * `pointBoundaryMesh.C`: without this fix, cases involving topological mesh changes will have a segmentation fault. For example, when using `crackerFvMesh`.
 
-To make these fixes, follow the instructions from the `Allwmake` script when [building solids4foam](#building-solids4foam).
+To make these fixes, follow the instructions from the `Allwmake` script when [building openFelCell](#building-openFelCell).
 
-If you do not want to (or cannot) make these changes, please set the environmental variable `S4F_NO_FILE_FIXES=1` before running the Allwmake script when [building solids4foam](#building-solids4foam), e.g.
+If you do not want to (or cannot) make these changes, please set the environmental variable `S4F_NO_FILE_FIXES=1` before running the Allwmake script when [building openFelCell](#building-openFelCell), e.g.
 ```
 > export S4F_NO_FILE_FIXES=1 && ./Allwmake
 ```
@@ -58,7 +58,7 @@ If you do not want to (or cannot) make these changes, please set the environment
 ```tip
 These dependencies are optional. You can skip them if you want to get up and running quickly.
 ```
-Beyond a working version of OpenFOAM or foam-extend, solids4foam does not have any **mandatory** dependencies; however, several **optional** dependencies are required to use the complete set of functionalities:
+Beyond a working version of OpenFOAM or foam-extend, openFelCell does not have any **mandatory** dependencies; however, several **optional** dependencies are required to use the complete set of functionalities:
 
 | Dependency  | Functionality Provided |
 | ------- | -------- |
@@ -70,9 +70,9 @@ Beyond a working version of OpenFOAM or foam-extend, solids4foam does not have a
 
 #### Eigen
 
-Before building solids4foam, the `EIGEN_DIR` environment variable can be set to the local Eigen installation location. If `EIGEN_DIR` is not set, then solids4foam will download a local copy of Eigen.
+Before building openFelCell, the `EIGEN_DIR` environment variable can be set to the local Eigen installation location. If `EIGEN_DIR` is not set, then openFelCell will download a local copy of Eigen.
 
-If you would like solids4foam **not** to use Eigen (e.g. due to version conflicts when using preCICE), set the `S4F_NO_USE_EIGEN` environment variable, e.g. add the following to your bashrc
+If you would like openFelCell **not** to use Eigen (e.g. due to version conflicts when using preCICE), set the `S4F_NO_USE_EIGEN` environment variable, e.g. add the following to your bashrc
 
 ```bash
 > export S4F_NO_USE_EIGEN=1
@@ -90,7 +90,7 @@ Or, on macOS with
 ```
 Alternatively, and more generally, PETSc can be installed following the instructions at [https://petsc.org/release/](https://petsc.org/release/).
 
-Once PETSC has been installed, the `PETSC_DIR` environment variable should be set to the installation location; this allows solids4foam to use it. If the `PETSC_DIR` environment variable is not set, then solids4foam will not use PETSc and functionalities that require PETSc will be disabled. For example, on Ubuntu you can do this with:
+Once PETSC has been installed, the `PETSC_DIR` environment variable should be set to the installation location; this allows openFelCell to use it. If the `PETSC_DIR` environment variable is not set, then openFelCell will not use PETSc and functionalities that require PETSc will be disabled. For example, on Ubuntu you can do this with:
 ```bash
 ecport PETSC_DIR=/lib/petsc
 ```
@@ -117,7 +117,7 @@ Or, on macOS with
 If the GCC compilers were used to compile OpenFOAM or foam-extend, then a compatible version of gfortran should be installed. For example, gfortran-7 should be used with gcc-7.
 ```
 
-solids4foam will use gfortran if the `gfortran` executable is found in the `$PATH`; if not, solids4foam will disable functionalities that require gfortran.
+openFelCell will use gfortran if the `gfortran` executable is found in the `$PATH`; if not, openFelCell will disable functionalities that require gfortran.
 
 #### cfmesh
 
@@ -142,44 +142,44 @@ Or, on macOS with
 
 ---
 
-### Downloading the solids4foam Source Code
+### Downloading the openFelCell Source Code
 
-The solids4foam directory can be downloaded to any reasonable location on your computer; we suggest placing it in `$FOAM_RUN/..`.
+The openFelCell directory can be downloaded to any reasonable location on your computer; we suggest placing it in `$FOAM_RUN/..`.
 
 #### Archive file
-solids4foam-v2.0 can be downloaded as an archive file:
-- [solids4foam-v2.0.zip](https://github.com/solids4foam/solids4foam/archive/refs/tags/v2.0.zip): extracted with `> unzip v2.0.tar.gz`
-- [solids4foam-v2.0.tgz](https://github.com/solids4foam/solids4foam/archive/refs/tags/v2.0.tar.gz): extracted with `> tar xzf unzip v2.0.tar.gz`
+openFuelCell can be downloaded as an archive file:
+- [openFuelCell.zip](https://github.com/openFelCell/openFelCell/archive/refs/tags/v2.0.zip): extracted with `> unzip v2.0.tar.gz`
+- [openFuelCell.tgz](https://github.com/openFelCell/openFelCell/archive/refs/tags/v2.0.tar.gz): extracted with `> tar xzf unzip v2.0.tar.gz`
 
 
 #### Git repository: v2.0
-`solids4foam-v2.0` can be downloaded using git with
+`openFuelCell` can be downloaded using git with
 ```bash
-> git clone --branch v2.0 git@github.com:solids4foam/solids4foam.git
+> git clone --branch v2.0 git@github.com:openFelCell/openFelCell.git
 ```
 
 #### Git repository: latest development branch
 The latest development branch can be downloaded with
 ```bash
-> git clone --branch development git@github.com:solids4foam/solids4foam.git
+> git clone --branch development git@github.com:openFelCell/openFelCell.git
 ```
 
 ---
 
-### Building solids4foam
+### Building openFelCell
 
-Before building solids4foam, a compatible version of OpenFOAM or foam-extend should be sourced: see the [table above](#supported-versions-of-openfoam). To build solids4foam, enter the solids4foam directory and execute the included Allwmake script, e.g.
+Before building openFelCell, a compatible version of OpenFOAM or foam-extend should be sourced: see the [table above](#supported-versions-of-openfoam). To build openFelCell, enter the openFelCell directory and execute the included Allwmake script, e.g.
 
 ```bash
-> cd solids4foam
+> cd openFelCell
 > ./Allwmake 2>&1 | tee log.Allwmake
 ```
 
 Depending on your hardware, you can expect this build to last about 5 minutes.
 
-If solids4foam is built successfully, you will be presented with the following message:
+If openFelCell is built successfully, you will be presented with the following message:
 ```bash
-There were no build errors: enjoy solids4foam!
+There were no build errors: enjoy openFelCell!
 To test the installation, run:
     > cd tutorials && ./Alltest
 ```
@@ -193,13 +193,13 @@ There were build errors in the following logs:
 Please examine these logs for additional details
 ```
 
-You can examine the source of the errors in the `log.Allwmake` file within the solids4foam parent directory. Additionally, please search [https://www.cfd-online.com/Forums/openfoam-cc-toolkits-fluid-structure-interaction/](https://www.cfd-online.com/Forums/openfoam-cc-toolkits-fluid-structure-interaction/) for similar errors. If you cannot find a resolution, please create a new thread at [https://www.cfd-online.com/Forums/openfoam-cc-toolkits-fluid-structure-interaction/](https://www.cfd-online.com/Forums/openfoam-cc-toolkits-fluid-structure-interaction/). Alternatively, if you believe you have encountered a bug, please create a new issue at [https://github.com/solids4foam/solids4foam/issues](https://github.com/solids4foam/solids4foam/issues).
+You can examine the source of the errors in the `log.Allwmake` file within the openFelCell parent directory. Additionally, please search [https://www.cfd-online.com/Forums/openfoam-cc-toolkits-fluid-structure-interaction/](https://www.cfd-online.com/Forums/openfoam-cc-toolkits-fluid-structure-interaction/) for similar errors. If you cannot find a resolution, please create a new thread at [https://www.cfd-online.com/Forums/openfoam-cc-toolkits-fluid-structure-interaction/](https://www.cfd-online.com/Forums/openfoam-cc-toolkits-fluid-structure-interaction/). Alternatively, if you believe you have encountered a bug, please create a new issue at [https://github.com/openFelCell/openFelCell/issues](https://github.com/openFelCell/openFelCell/issues).
 
 ---
 
 ### Testing the Installation
 
-As instructed, after a successful build, you can test the tutorials using the following commands, executed from the solids4foam parent directory.
+As instructed, after a successful build, you can test the tutorials using the following commands, executed from the openFelCell parent directory.
 ```bash
 > cd tutorials && ./Alltest
 ```
@@ -208,16 +208,16 @@ You can expect these tests to last a few minutes.
 
 If the tests pass, you will receive the message:
 ```bash
-All tests passed: enjoy solids4foam.
+All tests passed: enjoy openFelCell.
 ```
-This means your solids4foam installation is working as expected.
+This means your openFelCell installation is working as expected.
 
 If any of the tests fail, you will receive the message:
 ```bash
-The solids4Foam solver failed in the following cases:
+The openFelCell solver failed in the following cases:
 <LIST OF FAILING TUTORIALS>
 ```
-or if the errors do not come from the solids4foam calls but elsewhere
+or if the errors do not come from the openFelCell calls but elsewhere
 ```bash
 The following commands failed:
 <LIST OF FAILING COMMANDS AND TUTORIALS>
